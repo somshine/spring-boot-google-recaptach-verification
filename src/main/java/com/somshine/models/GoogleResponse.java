@@ -9,7 +9,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({ "success", "score", "action","challenge_ts", "hostname", "error-codes" })
-public class Response {
+public class GoogleResponse {
 
     @JsonProperty("success")
     private boolean success;
@@ -23,9 +23,6 @@ public class Response {
     private String action;
     @JsonProperty("error-codes")
     private ErrorCode[] errorCodes;
-    
-    private String message;
-    private String section;
 
     
     enum ErrorCode {
@@ -131,22 +128,4 @@ public class Response {
     public String toString() {
         return "GoogleResponse{" + "success=" + success + ", challengeTs='" + challengeTs + '\'' + ", hostname='" + hostname + '\''+ ", score='" + score + '\''+ ", action='" + action+ '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}';
     }
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getSection() {
-		return section;
-	}
-
-	public void setSection(String section) {
-		this.section = section;
-	}
-	
-	
 }
