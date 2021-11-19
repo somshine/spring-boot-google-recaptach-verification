@@ -39,20 +39,21 @@ public class RecaptchaManagementController {
 	@RequestMapping(value = "/verifyUser.do", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public Response viewAllItems(@RequestBody String gRecaptchaResponse) {
-		System.out.println(gRecaptchaResponse);
+	public Response viewAllItems(@RequestBody ScoreRequest objScoreRequest) {
+		System.out.println(objScoreRequest.toString());
+		
 		Response objResponse = new Response();
 		objResponse.setSuccess(false);
 		objResponse.setMessage("Json data with response key:value not available in request.");
 
-		if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
+		if (objScoreRequest.getResponse() == null || "".equals(objScoreRequest.getResponse())) {
 			objResponse.setSection("Captcha Data Failed");
 			return objResponse;
 		}
+		
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			final URI verifyUri = URI.create(String.format(RECAPTCHA_URL_TEMPLATE,
-					"6LesTTYdAAAAAKL6a-zPCrBJgMXWUX5DOtQmtyk4", gRecaptchaResponse, getClientIP()));
+			final URI verifyUri = URI.create(String.format(RECAPTCHA_URL_TEMPLATE, "6LesTTYdAAAAAKL6a-zPCrBJgMXWUX5DOtQmtyk4", objScoreRequest.getResponse(), getClientIP()));
 			final GoogleResponse googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse.class);
 			LOGGER.debug("Google's response: {} ", googleResponse.toString());
 
